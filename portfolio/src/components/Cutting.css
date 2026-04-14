@@ -1,8 +1,29 @@
-.knife.animate {
-  animation: cut 1.5s ease forwards;
+.cutting-scene {
+  position: relative;
 }
 
-@keyframes cut {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-200px); }
+.cutting {
+  animation: cutPulse 1.5s ease-in-out forwards;
+}
+
+.cut-line {
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  width: 4px;
+  background: linear-gradient(to bottom, transparent, #f4f4f4, transparent);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
+  animation: cutSweep 1.5s ease-in-out forwards;
+}
+
+@keyframes cutPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cutSweep {
+  0% { left: 78%; opacity: 0; }
+  15% { opacity: 1; }
+  100% { left: 24%; opacity: 0.1; }
 }

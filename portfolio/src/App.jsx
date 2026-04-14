@@ -13,7 +13,7 @@ function App() {
       {stage === 0 && <Start onNext={() => setStage(1)} />}
       {stage === 1 && <Cutting onNext={() => setStage(2)} />}
       {stage === 2 && <Opening onNext={() => setStage(3)} />}
-      {stage === 3 && <FullyOpen onNext={() => setStage(4)} />}
+      {stage === 3 && <FullyOpen />}
     </div>
   );
 }
