@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./Cutting.css";
+import cuttingBox from "../assests/cutting_box.png";
 
 export default function Cutting({ onNext }) {
   useEffect(() => {
@@ -8,7 +9,7 @@ export default function Cutting({ onNext }) {
 
   return (
     <div className="stage">
-      <img src="../assests/cutting_box.png" className="box cutting" />
+      <img src={cuttingBox} className="box cutting" alt="Cutting box" />
     </div>
   );
 }
