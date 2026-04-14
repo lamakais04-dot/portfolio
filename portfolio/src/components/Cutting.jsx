@@ -9,10 +9,7 @@ export default function Cutting({ onNext }) {
 
   return (
     <div className="stage">
-      <div className="cutting-scene">
-        <img src={cuttingBox} className="box cutting" alt="Cutting box" />
-        <span className="cut-line" aria-hidden="true" />
-      </div>
+      <img src={cuttingBox} className="box cutting" alt="Cutting box" />
     </div>
   );
 }

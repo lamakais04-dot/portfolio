@@ -50,24 +50,13 @@ export default function FullyOpen() {
     );
   }
 
-  return (
-    <div className="stage">
-      <div className="portfolio-map">
-        <img src={fullOpenBox} className="box" alt="Fully open box" />
+import fullOpenBox from "../assests/full_open_box.png";
 
-        {portfolioParts.map((part) => (
-          <button
-            key={part.id}
-            type="button"
-            className="hotspot"
-            style={part.position}
-            onClick={() => setSelectedPart(part)}
-          >
-            {part.label}
-          </button>
-        ))}
-      </div>
-      <p className="hint">Click a part of the box to open its page.</p>
+export default function FullyOpen({ onNext }) {
+  return (
+    <div className="stage" onClick={onNext}>
+      <img src={fullOpenBox} alt="Fully open box" />
+      <p className="hint">Almost there...</p>
     </div>
   );
 }
