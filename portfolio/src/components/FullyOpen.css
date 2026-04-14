@@ -1,0 +1,40 @@
+.portfolio-map {
+  position: relative;
+}
+
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 10, 10, 0.8);
+  color: #fff;
+  border: 1px solid #666;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hotspot:hover {
+  border-color: #fff;
+}
+
+.detail-page {
+  padding: 1rem;
+}
+
+.detail-card {
+  max-width: 520px;
+  background: #191919;
+  color: #f5f5f5;
+  border: 1px solid #343434;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.detail-card button {
+  margin-top: 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
