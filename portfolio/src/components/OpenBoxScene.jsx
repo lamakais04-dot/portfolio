@@ -1,7 +1,7 @@
 import { useState } from "react";
-import boxClosed from "../assests/closed-box.png";
-import boxHalf from "../assests/half-open.png";
-import boxOpen from "../assests/full-open.png";
+import boxClosed from "../assests/box-closed.jpg";
+import boxHalf from "../assests/box-half.jpg";
+import boxOpen from "../assests/box-open.jpg";
 
 function OpenBoxScene({ onFinish }) {
   const [stage, setStage] = useState("closed");

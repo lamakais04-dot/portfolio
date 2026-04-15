@@ -1,11 +1,34 @@
-import {
-  aboutData,
-  projectsData,
-  skillsData,
-  contactData,
-} from "../data/portfolioData";
+import { aboutData, projectsData, skillsData, contactData } from "../data/portfolioData";
 
 function PortfolioSections() {
+  const [activeProject, setActiveProject] = useState(projectsData[0]?.title ?? "");
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const selectedProject = useMemo(
+    () => projectsData.find((project) => project.title === activeProject) ?? projectsData[0],
+    [activeProject],
+  );
+
+  const selectedImages = selectedProject?.images ?? [];
+  const canMoveGallery = selectedImages.length > 1;
+
+  const moveGallery = (direction) => {
+    if (!canMoveGallery) return;
+
+    setActiveImageIndex((prev) => {
+      if (direction === "next") {
+        return (prev + 1) % selectedImages.length;
+      }
+
+      return (prev - 1 + selectedImages.length) % selectedImages.length;
+    });
+  };
+
+  const handleProjectOpen = (title) => {
+    setActiveProject(title);
+    setActiveImageIndex(0);
+  };
+
   return (
     <main className="portfolio-page">
       <nav className="top-nav">
@@ -36,6 +59,14 @@ function PortfolioSections() {
             <p className="about-role">{aboutData.role}</p>
             <p className="about-text">{aboutData.bio}</p>
 
+            <div className="about-highlights">
+              {aboutData.highlights.map((highlight) => (
+                <p key={highlight} className="highlight-pill">
+                  {highlight}
+                </p>
+              ))}
+            </div>
+
             <div className="tag-row">
               {aboutData.tags.map((tag) => (
                 <span key={tag} className="tag">
@@ -49,57 +80,21 @@ function PortfolioSections() {
 
       <section id="projects" className="content-section">
         <p className="section-label">PROJECTS</p>
-        <h2 className="section-heading">What I’ve Built</h2>
+        <h2 className="section-heading">Interactive Project Explorer</h2>
 
         <div className="projects-grid">
           {projectsData.map((project) => (
-            <article
-              key={project.id}
-              className={`project-card ${project.featured ? "featured" : ""}`}
-            >
-              <div className="project-image-wrap">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="project-image"
-                />
-              </div>
+            <article key={project.title} className="project-card">
+              <div className="project-icon">□</div>
+              <h3>{project.title}</h3>
+              <p>{project.description}</p>
 
-              <div className="project-body">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-
-                <div className="tag-row">
-                  {project.tech.map((item) => (
-                    <span key={item} className="tag">
-                      {item}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="project-links">
-                  {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="project-link primary"
-                    >
-                      GitHub
-                    </a>
-                  )}
-
-                  {project.live && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="project-link"
-                    >
-                      Live Demo
-                    </a>
-                  )}
-                </div>
+              <div className="tag-row">
+                {project.tech.map((item) => (
+                  <span key={item} className="tag">
+                    {item}
+                  </span>
+                ))}
               </div>
             </article>
           ))}
