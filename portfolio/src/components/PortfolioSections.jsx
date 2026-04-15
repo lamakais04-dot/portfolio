@@ -1,6 +1,35 @@
+import { useMemo, useState } from "react";
 import { aboutData, projectsData, skillsData, contactData } from "../data/portfolioData";
 
 function PortfolioSections() {
+  const [activeProject, setActiveProject] = useState(projectsData[0]?.title ?? "");
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const selectedProject = useMemo(
+    () => projectsData.find((project) => project.title === activeProject) ?? projectsData[0],
+    [activeProject],
+  );
+
+  const selectedImages = selectedProject?.images ?? [];
+  const canMoveGallery = selectedImages.length > 1;
+
+  const moveGallery = (direction) => {
+    if (!canMoveGallery) return;
+
+    setActiveImageIndex((prev) => {
+      if (direction === "next") {
+        return (prev + 1) % selectedImages.length;
+      }
+
+      return (prev - 1 + selectedImages.length) % selectedImages.length;
+    });
+  };
+
+  const handleProjectOpen = (title) => {
+    setActiveProject(title);
+    setActiveImageIndex(0);
+  };
+
   return (
     <main id="portfolio-start" className="portfolio-sections">
       <nav className="top-nav">
@@ -22,6 +51,14 @@ function PortfolioSections() {
             <p className="about-role">{aboutData.role}</p>
             <p className="about-text">{aboutData.bio}</p>
 
+            <div className="about-highlights">
+              {aboutData.highlights.map((highlight) => (
+                <p key={highlight} className="highlight-pill">
+                  {highlight}
+                </p>
+              ))}
+            </div>
+
             <div className="tag-row">
               {aboutData.tags.map((tag) => (
                 <span key={tag} className="tag">
@@ -35,24 +72,86 @@ function PortfolioSections() {
 
       <section id="projects" className="content-section">
         <p className="section-label">PROJECTS</p>
-        <h2 className="section-heading">What I’ve Built</h2>
+        <h2 className="section-heading">Interactive Project Explorer</h2>
 
-        <div className="projects-grid">
-          {projectsData.map((project) => (
-            <article key={project.title} className="project-card">
-              <div className="project-icon">□</div>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+        <div className="projects-layout">
+          <div className="projects-grid">
+            {projectsData.map((project) => (
+              <article
+                key={project.title}
+                className={`project-card ${project.title === activeProject ? "active" : ""}`}
+                onClick={() => handleProjectOpen(project.title)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    handleProjectOpen(project.title);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open ${project.title} details`}
+              >
+                <div className="project-icon">▣</div>
+                <h3>{project.title}</h3>
+                <p>{project.summary}</p>
 
-              <div className="tag-row">
-                {project.tech.map((item) => (
-                  <span key={item} className="tag">
-                    {item}
-                  </span>
-                ))}
+                <div className="tag-row">
+                  {project.tech.map((item) => (
+                    <span key={item} className="tag">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {selectedProject && (
+            <aside className="project-details-panel">
+              <div className="project-details-header">
+                <p className="section-label">Selected project</p>
+                <h3>{selectedProject.title}</h3>
               </div>
-            </article>
-          ))}
+
+              <p className="project-details-text">{selectedProject.description}</p>
+
+              <ul className="project-bullets">
+                {selectedProject.details.map((detail) => (
+                  <li key={detail}>{detail}</li>
+                ))}
+              </ul>
+
+              {selectedImages.length > 0 && (
+                <div className="project-gallery">
+                  <img
+                    src={selectedImages[activeImageIndex]}
+                    alt={`${selectedProject.title} screenshot ${activeImageIndex + 1}`}
+                    className="project-preview-image"
+                  />
+
+                  <div className="gallery-controls">
+                    <button
+                      type="button"
+                      onClick={() => moveGallery("prev")}
+                      disabled={!canMoveGallery}
+                    >
+                      ← Prev
+                    </button>
+                    <span>
+                      {activeImageIndex + 1} / {selectedImages.length}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => moveGallery("next")}
+                      disabled={!canMoveGallery}
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </aside>
+          )}
         </div>
       </section>
 
