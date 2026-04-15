@@ -1,49 +1,44 @@
-export const portfolioItems = [
+export const aboutData = {
+  name: "Lama",
+  role: "Full Stack Developer · 19 years old",
+  bio: "I craft clean, performant web experiences from front to back. Passionate about building things that are both beautiful and functional.",
+  tags: ["React", "JavaScript", "Python", "PostgreSQL", "Docker"],
+};
+
+export const projectsData = [
   {
-    id: "about",
-    title: "About Me",
+    title: "Rentals App",
     description:
-      "I'm Lama, a 19-year-old full-stack developer who loves building interactive and creative web experiences.",
-    details: [
-      "Frontend: React, JavaScript, CSS",
-      "Backend: Python, APIs, PostgreSQL",
-      "Tools: Docker, Socket.IO"
-    ],
-    position: { top: "28%", left: "28%" }
+      "A platform for renting objects and services between users. Full CRUD with auth and real-time updates.",
+    tech: ["React", "Node.js", "PostgreSQL"],
   },
   {
-    id: "projects",
-    title: "Projects",
-    description: "Projects I’ve built and worked on.",
-    details: [
-      "BookStock - library system",
-      "Rentals App - services platform",
-      "Weather App - API project"
-    ],
-    position: { top: "20%", left: "48%" }
+    title: "BookStock",
+    description:
+      "Library management system for borrowing and returning books with inventory tracking and user dashboards.",
+    tech: ["Python", "PostgreSQL", "APIs"],
   },
   {
-    id: "skills",
-    title: "Skills",
-    description: "Technologies I work with.",
-    details: [
-      "React",
-      "JavaScript",
-      "Python",
-      "PostgreSQL",
-      "Docker"
-    ],
-    position: { top: "30%", left: "65%" }
+    title: "Weather App",
+    description:
+      "Real-time weather forecasting app using external APIs with location search and daily forecasts.",
+    tech: ["React", "API", "JavaScript"],
   },
-  {
-    id: "contact",
-    title: "Contact",
-    description: "Get in touch with me.",
-    details: [
-      "Email: your@email.com",
-      "GitHub: yourname",
-      "LinkedIn: yourname"
-    ],
-    position: { top: "48%", left: "50%" }
-  }
 ];
+
+export const skillsData = [
+  { name: "React", type: "Frontend" },
+  { name: "JavaScript", type: "Language" },
+  { name: "Python", type: "Language" },
+  { name: "PostgreSQL", type: "Database" },
+  { name: "Docker", type: "DevOps" },
+  { name: "REST APIs", type: "Backend" },
+  { name: "Git", type: "Tools" },
+  { name: "CSS", type: "Frontend" },
+];
+
+export const contactData = {
+  intro: "Got a project idea or just want to say hi? I'd love to hear from you.",
+  email: "lama.dev@email.com",
+  status: "Available for freelance",
+};

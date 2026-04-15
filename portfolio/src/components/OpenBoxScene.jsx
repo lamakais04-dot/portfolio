@@ -1,52 +1,83 @@
 import { useState } from "react";
-import FloatingItem from "./FloatingItem";
-import ContentModal from "./ContentModal";
-import { portfolioItems } from "../data/portfolioData";
-import closedBoxImage from "../assests/box-closed.jpg";
-import halfOpenBoxImage from "../assests/box-half.jpg";
-import openBoxImage from "../assests/box-open.jpg";
+import boxClosed from "../assets/box-closed.jpg";
+import boxHalf from "../assets/box-half.jpg";
+import boxOpen from "../assets/box-open.jpg";
 
 function OpenBoxScene() {
   const [stage, setStage] = useState("closed");
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleBoxClick = () => {
-    if (stage === "closed") setStage("opening1");
-    else if (stage === "opening1") setStage("opening2");
-    else if (stage === "opening2") setStage("open");
+    if (stage === "closed") {
+      setStage("opening1");
+      return;
+    }
+
+    if (stage === "opening1") {
+      setStage("open");
+      return;
+    }
+
+    if (stage === "open") {
+      const portfolioSection = document.getElementById("portfolio-start");
+      if (portfolioSection) {
+        portfolioSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }
   };
 
   const getBoxImage = () => {
-    if (stage === "closed") return closedBoxImage;
-    if (stage === "opening1") return halfOpenBoxImage;
-    return openBoxImage;
+    if (stage === "closed") return boxClosed;
+    if (stage === "opening1") return boxHalf;
+    return boxOpen;
+  };
+
+  const getTitle = () => {
+    if (stage === "closed") return "Your package has arrived";
+    if (stage === "opening1") return "A sneak peek inside...";
+    return "Welcome to my portfolio";
+  };
+
+  const getSubtitle = () => {
+    if (stage === "closed") return "Tap to open";
+    if (stage === "opening1") return "Tap to reveal everything";
+    return "Scroll down to explore";
   };
 
   return (
-    <div className="scene">
-      <div className="box-wrapper" onClick={handleBoxClick}>
-        <img src={getBoxImage()} alt="Box" className="box-image" />
+    <section className="hero-box-section">
+      <div className="hero-box-card" onClick={handleBoxClick}>
+        <img src={getBoxImage()} alt="Portfolio box" className="hero-box-image" />
+      </div>
+
+      <h1 className="hero-title">{getTitle()}</h1>
+      <p className="hero-subtitle">{getSubtitle()}</p>
+
+      <div className="hero-dots">
+        <span className={stage === "closed" ? "dot active" : "dot"} />
+        <span className={stage === "opening1" ? "dot active" : "dot"} />
+        <span className={stage === "open" ? "dot active" : "dot"} />
       </div>
 
       {stage === "open" && (
-        <div className="floating-items">
-          {portfolioItems.map((item) => (
-            <FloatingItem
-              key={item.id}
-              item={item}
-              onClick={() => setSelectedItem(item)}
-            />
-          ))}
-        </div>
+        <button
+          className="scroll-btn"
+          onClick={() => {
+            const portfolioSection = document.getElementById("portfolio-start");
+            if (portfolioSection) {
+              portfolioSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          }}
+        >
+          Explore Portfolio
+        </button>
       )}
-
-      {selectedItem && (
-        <ContentModal
-          item={selectedItem}
-          onClose={() => setSelectedItem(null)}
-        />
-      )}
-    </div>
+    </section>
   );
 }
 
