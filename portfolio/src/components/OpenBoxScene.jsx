@@ -2,6 +2,9 @@ import { useState } from "react";
 import FloatingItem from "./FloatingItem";
 import ContentModal from "./ContentModal";
 import { portfolioItems } from "../data/portfolioData";
+import closedBoxImage from "../assests/box-closed.jpg";
+import halfOpenBoxImage from "../assests/box-half.jpg";
+import openBoxImage from "../assests/box-open.jpg";
 
 function OpenBoxScene() {
   const [stage, setStage] = useState("closed");
@@ -14,10 +17,9 @@ function OpenBoxScene() {
   };
 
   const getBoxImage = () => {
-    if (stage === "closed") return "src/assets/closed-box.png";
-    if (stage === "opening1") return "/src/assets/half-open-box.png";
-    if (stage === "opening2") return "/src/assets/opening-box.png";
-    return boxOpen;
+    if (stage === "closed") return closedBoxImage;
+    if (stage === "opening1") return halfOpenBoxImage;
+    return openBoxImage;
   };
 
   return (
