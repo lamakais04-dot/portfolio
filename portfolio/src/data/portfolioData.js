@@ -1,3 +1,8 @@
+import profile from "../images/profile.jpeg";
+import rentalsImg from "../images/projects/rentals.png";
+import bookstockImg from "../images/projects/bookstock.png";
+import weatherImg from "../images/projects/weather.png";
+
 export const aboutData = {
   name: "Lama",
   role: "Full Stack Developer · 19 years old",
@@ -7,6 +12,7 @@ export const aboutData = {
     "Projects completed: 7+",
   ],
   tags: ["React", "JavaScript", "Python", "PostgreSQL", "Docker"],
+  profileImage: profile,
 };
 
 export const projectsData = [
@@ -44,6 +50,7 @@ export const projectsData = [
     ],
   },
   {
+    id: 2,
     title: "BookStock",
     summary: "Library management system with inventory tracking.",
     description:
@@ -57,6 +64,7 @@ export const projectsData = [
     images: ["https://picsum.photos/seed/bookstock-admin/900/600"],
   },
   {
+    id: 3,
     title: "Weather App",
     summary: "Real-time forecasting with smart location search.",
     description:
@@ -133,4 +141,6 @@ export const contactData = {
   intro: "Got a project idea or just want to say hi? I'd love to hear from you.",
   email: "lama.dev@email.com",
   status: "Available for freelance",
+  github: "https://github.com/yourusername",
+  linkedin: "https://linkedin.com/in/yourusername",
 };

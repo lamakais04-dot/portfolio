@@ -3,51 +3,50 @@ import boxClosed from "../assests/box-closed.jpg";
 import boxHalf from "../assests/box-half.jpg";
 import boxOpen from "../assests/box-open.jpg";
 
-function OpenBoxScene() {
+function OpenBoxScene({ onFinish }) {
   const [stage, setStage] = useState("closed");
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleBoxClick = () => {
+    if (isTransitioning) return;
+
     if (stage === "closed") {
-      setStage("opening1");
+      setStage("half");
       return;
     }
 
-    if (stage === "opening1") {
+    if (stage === "half") {
       setStage("open");
-      return;
-    }
+      setIsTransitioning(true);
 
-    if (stage === "open") {
-      const portfolioSection = document.getElementById("portfolio-start");
-      if (portfolioSection) {
-        portfolioSection.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+      setTimeout(() => {
+        onFinish();
+      }, 1200);
+
+      return;
     }
   };
 
   const getBoxImage = () => {
     if (stage === "closed") return boxClosed;
-    if (stage === "opening1") return boxHalf;
+    if (stage === "half") return boxHalf;
     return boxOpen;
   };
 
   const getTitle = () => {
     if (stage === "closed") return "Your package has arrived";
-    if (stage === "opening1") return "A sneak peek inside...";
+    if (stage === "half") return "Curios? Take another look";
     return "Welcome to my portfolio";
   };
 
   const getSubtitle = () => {
     if (stage === "closed") return "Tap to open";
-    if (stage === "opening1") return "Tap to reveal everything";
-    return "Scroll down to explore";
+    if (stage === "half") return "Tap again to reveal everything";
+    return "Opening portfolio...";
   };
 
   return (
-    <section className="hero-box-section">
+    <section className={`hero-box-section ${isTransitioning ? "zoom-out" : ""}`}>
       <div className="hero-box-card" onClick={handleBoxClick}>
         <img src={getBoxImage()} alt="Portfolio box" className="hero-box-image" />
       </div>
@@ -57,26 +56,9 @@ function OpenBoxScene() {
 
       <div className="hero-dots">
         <span className={stage === "closed" ? "dot active" : "dot"} />
-        <span className={stage === "opening1" ? "dot active" : "dot"} />
+        <span className={stage === "half" ? "dot active" : "dot"} />
         <span className={stage === "open" ? "dot active" : "dot"} />
       </div>
-
-      {stage === "open" && (
-        <button
-          className="scroll-btn"
-          onClick={() => {
-            const portfolioSection = document.getElementById("portfolio-start");
-            if (portfolioSection) {
-              portfolioSection.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }
-          }}
-        >
-          Explore Portfolio
-        </button>
-      )}
     </section>
   );
 }
