@@ -1,33 +1,9 @@
+import { useState } from "react";
 import { aboutData, projectsData, skillsData, contactData } from "../data/portfolioData";
+import ProjectModal from "./ProjectModal";
 
 function PortfolioSections() {
-  const [activeProject, setActiveProject] = useState(projectsData[0]?.title ?? "");
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-
-  const selectedProject = useMemo(
-    () => projectsData.find((project) => project.title === activeProject) ?? projectsData[0],
-    [activeProject],
-  );
-
-  const selectedImages = selectedProject?.images ?? [];
-  const canMoveGallery = selectedImages.length > 1;
-
-  const moveGallery = (direction) => {
-    if (!canMoveGallery) return;
-
-    setActiveImageIndex((prev) => {
-      if (direction === "next") {
-        return (prev + 1) % selectedImages.length;
-      }
-
-      return (prev - 1 + selectedImages.length) % selectedImages.length;
-    });
-  };
-
-  const handleProjectOpen = (title) => {
-    setActiveProject(title);
-    setActiveImageIndex(0);
-  };
+  const [openProject, setOpenProject] = useState(null);
 
   return (
     <main className="portfolio-page">
@@ -80,24 +56,45 @@ function PortfolioSections() {
 
       <section id="projects" className="content-section">
         <p className="section-label">PROJECTS</p>
-        <h2 className="section-heading">Interactive Project Explorer</h2>
+        <h2 className="section-heading">Things I&apos;ve built</h2>
 
-        <div className="projects-grid">
-          {projectsData.map((project) => (
-            <article key={project.title} className="project-card">
-              <div className="project-icon">□</div>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
+        <div className="projects-wrapper">
+          <div className="projects-grid">
+            {projectsData.map((project, i) => (
+              <article
+                key={project.title}
+                className="project-card"
+                onClick={() => setOpenProject(project)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") setOpenProject(project);
+                }}
+              >
+                <div className="project-number">0{i + 1}</div>
+                <h3>{project.title}</h3>
+                <p>{project.description}</p>
 
-              <div className="tag-row">
-                {project.tech.map((item) => (
-                  <span key={item} className="tag">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))}
+                <div className="project-footer">
+                  <div className="tag-row">
+                    {project.tech.map((item) => (
+                      <span key={item} className="tag">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="project-arrow">→</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {openProject && (
+            <ProjectModal
+              project={openProject}
+              onClose={() => setOpenProject(null)}
+            />
+          )}
         </div>
       </section>
 
@@ -129,10 +126,7 @@ function PortfolioSections() {
           <p>{contactData.status}</p>
 
           <div className="contact-actions">
-            <a
-              className="contact-button"
-              href={`mailto:${contactData.email}`}
-            >
+            <a className="contact-button" href={`mailto:${contactData.email}`}>
               Send a Message
             </a>
 
