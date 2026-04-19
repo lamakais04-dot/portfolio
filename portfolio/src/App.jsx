@@ -8,8 +8,22 @@ function App() {
 
   return (
     <div className="app-shell">
-      {page === "intro" && <OpenBoxScene onFinish={() => setPage("portfolio")} />}
-      {page === "portfolio" && <PortfolioSections />}
+      
+      {/* background */}
+      <div className="falling-background">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="falling-item" />
+        ))}
+      </div>
+
+      {/* content */}
+      <div className="main-content">
+        {page === "intro" && (
+          <OpenBoxScene onFinish={() => setPage("portfolio")} />
+        )}
+        {page === "portfolio" && <PortfolioSections />}
+      </div>
+
     </div>
   );
 }
